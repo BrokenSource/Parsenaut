@@ -1,0 +1,16 @@
+[project]
+name        = "parsenaut"
+description = "🚀 Parse and launch classes as commands from scripts"
+authors     = [{name="Tremeschin"}]
+version     = "0.1.0"
+readme      = "readme.md"
+license     = "MIT"
+requires-python = ">=3.10"
+dependencies = [
+    "attrs",
+    "cyclopts",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
