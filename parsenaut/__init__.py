@@ -1,5 +1,5 @@
 import re
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from pathlib import Path
 from typing import Any, Callable, Optional
 
@@ -12,13 +12,16 @@ __all__ = [
 
 @define
 class iClass:
+    """Information about a runnable class"""
     script: Path
     name: str
     docstring: Optional[str]
 
 @define
-class BaseLauncher:
+class BaseLauncher(ABC):
+
     tag: str
+    """Substring to search for in class inheritance"""
 
     @property
     def pattern(self) -> re.Pattern:
