@@ -38,6 +38,19 @@ class BaseLauncher(ABC):
     """Substring to search for in class inheritance"""
 
     # -------------------------------- #
+    # Abstract methods
+
+    @abstractmethod
+    def add(self, meta: Entry) -> None:
+        """Add a new command to the launcher"""
+        ...
+
+    @abstractmethod
+    def run(self, meta: Entry, *args: str) -> Any:
+        """Instantiate and run entry with arguments"""
+        ...
+
+    # -------------------------------- #
     # Default methods
 
     @property
@@ -93,19 +106,3 @@ class BaseLauncher(ABC):
 
         # Search and count total matches
         return sum(map(self.search, search))
-
-    # -------------------------------- #
-    # Abstract methods
-
-    @abstractmethod
-    def add(self, meta: Entry) -> None:
-        """Add a new command to the launcher"""
-        ...
-
-    @abstractmethod
-    def run(self, meta: Entry, *args: str) -> Any:
-        """Instantiate and run entry with arguments"""
-        ...
-
-    # -------------------------------- #
-    # Composite methods

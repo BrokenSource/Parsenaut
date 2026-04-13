@@ -60,10 +60,10 @@ from pathlib import Path
 from parsenaut._cyclopts import Launcher
 
 if __name__ == "__main__":
-    app = Launcher(keyword="Scene")
+    launcher = Launcher(keyword="Scene")
 
     for file in Path.cwd().glob("*.py"):
-        app.search(file)
+        launcher.search(file)
 
-    app.cli(sys.argv[1:])
+    launcher.cli(sys.argv[1:])
 ```
