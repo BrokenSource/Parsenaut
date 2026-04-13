@@ -5,9 +5,7 @@
 
 ## 📦 Description
 
-Scene-like applications may use inheritance for multiple user-defined or example classes in local scripts, lacking dynamic entry points and/or needing a path and class name to run.
-
-Whether your project looks something like:
+Scene-like applications may use inheritance for multiple user-defined classes in local scripts, lacking dynamic entry points and/or needing a path and class name to run. Whether your project looks something like:
 
 ```python
 from myproject import Scene
@@ -38,7 +36,7 @@ $ myproject mandelbrot (args)
 
 Parsenaut is a safe library for it that:
 
-- **No exec**: Files are parsed with regex or abstract syntax trees and are never executed, saving import times and minimizing security issues.
+- **No exec**: Files are parsed with regex or abstract syntax trees and are never executed, saving import times and minimizing security issues in potentially untrusted scripts (non-greedy).
 - **Compatible**: Works with [Cyclopts](https://pypi.org/project/cyclopts) or [Typer](https://pypi.org/project/typer/) command line libraries, at your taste.
 - **Flexible**: Customizable class tags search, extensible classes.
 - **Fast**: Does not spawn a subproces, uses stdlib [`runpy`](https://docs.python.org/3/library/runpy.html)
@@ -49,14 +47,10 @@ Simply add the [`parsenaut`](https://pypi.org/project/parsenaut/) package in you
 
 ```toml
 [project]
-dependencies = [
-    "parsenaut"
-]
+dependencies = ["parsenaut"]
 ```
 
 ## 📦 Usage
-
-See the <kbd>[Examples](./examples/)</kbd> directory for more!
 
 ```python
 # myproject/__main__.py
@@ -66,12 +60,10 @@ from pathlib import Path
 from parsenaut._cyclopts import Launcher
 
 if __name__ == "__main__":
-    app = Launcher(tag="Scene")
+    app = Launcher(keyword="Scene")
 
     for file in Path.cwd().glob("*.py"):
         app.search(file)
 
     app.cli(sys.argv[1:])
 ```
-
-
