@@ -20,7 +20,7 @@ class Launcher(BaseLauncher):
     ))
 
     @staticmethod
-    def chain(app: App):
+    def chain(app: App) -> App:
         """Implements known commands chaining in meta app"""
         def meta(*tokens: Annotated[str, Parameter(show=False, allow_leading_hyphen=True)]):
             if (splits := [n for (n, token) in enumerate(tokens) if token in app]):
@@ -29,6 +29,7 @@ class Launcher(BaseLauncher):
                 return None
             return app()
         app.meta.default(meta)
+        return app
 
     def add(self, meta: Entry) -> None:
 

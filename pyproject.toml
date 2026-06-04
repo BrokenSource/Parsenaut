@@ -2,7 +2,7 @@
 name        = "parsenaut"
 description = "🚀 Parse and launch classes as commands"
 authors     = [{name="Tremeschin"}]
-version     = "0.1.0"
+version     = "0.1.1"
 readme      = "readme.md"
 license     = "MIT"
 requires-python = ">=3.10"
