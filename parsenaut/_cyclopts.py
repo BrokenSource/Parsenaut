@@ -42,7 +42,7 @@ class Launcher(BaseLauncher):
 
         self.cli.command(runner,
             name=meta.name.lower(),
-            help=(meta.desc or "No description provided"),
+            help=(meta.docstring or "No description provided"),
             group=f"📦 {self.keyword}s at ({meta.path})",
         )
 

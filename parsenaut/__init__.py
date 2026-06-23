@@ -1,4 +1,4 @@
-import re
+import ast
 import runpy
 from abc import ABC, abstractmethod
 from pathlib import Path
@@ -15,17 +15,28 @@ __all__ = [
 class Entry:
     """Information about a runnable class"""
     path: Path
-    name: str
-    desc: Optional[str]
+    node: ast.ClassDef
+
+    @property
+    def name(self) -> str:
+        """Get the name of the class from AST"""
+        return self.node.name
+
+    @property
+    def docstring(self) -> Optional[str]:
+        """Get the docstring of the class from AST"""
+        return ast.get_docstring(self.node)
 
     @property
     def module(self) -> dict:
-        """Warning: Executes script as a module"""
+        """Runs the script and returns its globals"""
         return runpy.run_path(str(self.path))
 
     @property
     def cls(self) -> type:
+        """Run the script and get the target class"""
         return self.module[self.name]
+
 
 @define
 class BaseLauncher(ABC):
@@ -53,35 +64,27 @@ class BaseLauncher(ABC):
     # -------------------------------- #
     # Default methods
 
-    @property
-    def pattern(self) -> re.Pattern:
-        """
-        Get a regex pattern with match groups:
-        1. Class names with 'self.keyword' in inheritance
-        2. Immediate optional triple-quoted docstring
-        """
-        return re.compile(''.join((
-            r"^class\s+(\w+)\s"
-            r"*\(.*?(?:" + self.keyword + r").*\):",
-            r"\s*(?:\"\"\"((?:\n|.)*?)\"\"\")?",
-        )), re.MULTILINE)
-
-    def search(self, /, script: Path) -> bool:
-        """Search for classes in given script or directory"""
+    def search(self, /, script: Path) -> int:
+        """Search for classes containing keyword, returns total matches"""
         script: Path = Path(script)
+        matches: int = 0
 
-        # Fixme: Regex or ast parsing?
-        code: str = script.read_text(encoding="utf-8")
-        matches = list(self.pattern.finditer(code))
+        # Speed: Only look for root nodes in body
+        for node in ast.parse(
+            script.read_text(encoding="utf-8"),
+            filename=str(script),
+        ).body:
 
-        for match in matches:
-            self.add(Entry(
-                path=script,
-                name=match.group(1),
-                desc=match.group(2),
-            ))
+            # Only look for class definitions
+            if not isinstance(node, ast.ClassDef):
+                continue
 
-        return bool(matches)
+            # Keyword must be in the string name of base classes
+            if any((self.keyword in base.id for base in node.bases)): # type: ignore
+                self.add(Entry(path=script, node=node))
+                matches += 1
+
+        return matches
 
     def smart(self,
         package: Path,

@@ -36,10 +36,10 @@ $ myproject mandelbrot (args)
 
 Parsenaut is a safe library for it that:
 
-- **No exec**: Files are parsed with regex or abstract syntax trees and are never executed, saving import times and minimizing security issues in potentially untrusted scripts (non-greedy).
+- **Safe**: Files are parsed with stdlib [Abstract Syntax Trees](https://docs.python.org/3/library/ast.html) and are never executed, saving import times and minimizing security issues in potentially untrusted scripts.
 - **Compatible**: Works with [Cyclopts](https://pypi.org/project/cyclopts) or [Typer](https://pypi.org/project/typer/) command line libraries, at your taste.
-- **Flexible**: Customizable class tags search, extensible classes.
-- **Fast**: Does not spawn a subproces, uses stdlib [`runpy`](https://docs.python.org/3/library/runpy.html)
+- **Flexible**: Customizable class tags search, write your own implementation.
+- **Fast**: Does not spawn a subprocess, uses stdlib [`runpy`](https://docs.python.org/3/library/runpy.html)
 
 ## 📦 Installation
 
