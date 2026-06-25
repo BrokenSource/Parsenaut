@@ -90,7 +90,7 @@ class BaseLauncher(ABC):
         package: Path,
         directories: list = [
             "../projects",
-            "../examples",
+            "../examples", "examples",
             "resources/examples",
         ],
     ) -> int:

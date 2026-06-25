@@ -1,11 +1,9 @@
 name: release
 on:
-  push:
-    tags:
-      - "v*"
+  workflow_dispatch:
+
 jobs:
   main:
-    name: Release
     runs-on: ubuntu-latest
     environment: release
     permissions:
@@ -14,11 +12,11 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: astral-sh/setup-uv@v8.2.0
-      - run:  test "$(uv version --short)" = "${GITHUB_REF_NAME#v}"
+      - run:  echo "VERSION=$(uv version --short)" >> "$GITHUB_ENV"
       - run:  uv build --wheel
       - run:  uv publish
       - uses: softprops/action-gh-release@v3
         with:
-          name: Release ${{ github.ref_name }}
-          tag_name: ${{ github.ref_name }}
+          name: Release ${{ env.VERSION }}
+          tag_name: v${{ env.VERSION }}
           files: dist/*.whl
