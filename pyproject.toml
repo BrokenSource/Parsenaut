@@ -1,12 +1,14 @@
 [project]
 name        = "parsenaut"
 description = "🚀 Parse and launch classes as commands"
-authors     = [{name="Tremeschin"}]
 version     = "0.2.1"
-readme      = "readme.md"
 license     = "MIT"
+readme      = "readme.md"
 requires-python = ">=3.10"
 dependencies = ["attrs"]
+
+[project.urls]
+GitHub = "https://github.com/BrokenSource/Parsenaut"
 
 [build-system]
 requires = ["hatchling"]
