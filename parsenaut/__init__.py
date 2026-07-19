@@ -6,10 +6,10 @@ from typing import Any, Optional
 
 from attrs import define
 
-__all__ = [
-    "BaseLauncher",
-    "Entry",
-]
+__about__   = "🚀 Parse and launch classes as commands"
+__package__ = "parsenaut"
+__version__ = "0.2.1"
+__license__ = "MIT"
 
 @define
 class Entry:
