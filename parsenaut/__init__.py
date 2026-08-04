@@ -2,7 +2,7 @@ import ast
 import runpy
 from abc import ABC, abstractmethod
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from attrs import define
 
@@ -23,7 +23,7 @@ class Entry:
         return self.node.name
 
     @property
-    def docstring(self) -> Optional[str]:
+    def docstring(self) -> str | None:
         """Get the docstring of the class from AST"""
         return ast.get_docstring(self.node)
 
@@ -37,6 +37,12 @@ class Entry:
         """Run the script and get the target class"""
         return self.module[self.name]
 
+SEARCH: list[str] = [
+    "../projects",
+    "../examples",
+    "examples",
+    "resources/examples",
+]
 
 @define
 class BaseLauncher(ABC):
@@ -66,7 +72,7 @@ class BaseLauncher(ABC):
 
     def search(self, /, script: Path) -> int:
         """Search for classes containing keyword, returns total matches"""
-        script: Path = Path(script)
+        script = Path(script)
         matches: int = 0
 
         # Speed: Only look for root nodes in body
@@ -80,7 +86,7 @@ class BaseLauncher(ABC):
                 continue
 
             # Keyword must be in the string name of base classes
-            if any((self.keyword in base.id for base in node.bases)): # type: ignore
+            if any(self.keyword in base.id for base in node.bases): # type: ignore
                 self.add(Entry(path=script, node=node))
                 matches += 1
 
@@ -88,18 +94,14 @@ class BaseLauncher(ABC):
 
     def smart(self,
         package: Path,
-        directories: list = [
-            "../projects",
-            "../examples", "examples",
-            "resources/examples",
-        ],
+        directories: list=SEARCH,
     ) -> int:
 
         # Search current directory return early on matches
         if local := sum(map(self.search, Path.cwd().glob("*.py"))):
             return local
 
-        search: list[Path] = list()
+        search: list[Path] = []
         package = Path(package)
 
         # Common places for repository
