@@ -1,4 +1,3 @@
-"""Note: Filename avoids collision, not a private module!"""
 import itertools
 import sys
 from typing import Annotated, Any

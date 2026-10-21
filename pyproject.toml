@@ -1,10 +1,10 @@
 [project]
 name        = "parsenaut"
 description = "🚀 Parse and launch classes as commands"
-version     = "0.2.1"
+version     = "0.3.0"
 license     = "MIT"
 readme      = "readme.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = ["attrs"]
 
 [project.urls]

@@ -57,7 +57,7 @@ dependencies = ["parsenaut"]
 import sys
 from pathlib import Path
 
-from parsenaut._cyclopts import Launcher
+from parsenaut.cyclopts import Launcher
 
 if __name__ == "__main__":
     launcher = Launcher(keyword="Scene")
