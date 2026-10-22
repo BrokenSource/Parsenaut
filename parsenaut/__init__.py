@@ -28,7 +28,7 @@ class Entry:
         return ast.get_docstring(self.node)
 
     @property
-    def module(self) -> dict:
+    def module(self) -> dict[str, Any]:
         """Runs the script and returns its globals"""
         return runpy.run_path(str(self.path))
 
@@ -94,7 +94,7 @@ class BaseLauncher(ABC):
 
     def smart(self,
         package: Path,
-        directories: list=SEARCH,
+        directories: list[str] = SEARCH,
     ) -> int:
 
         # Search current directory return early on matches

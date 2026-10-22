@@ -1,6 +1,6 @@
 import itertools
 import sys
-from typing import Annotated, Any
+from typing import Annotated, Any, override
 
 from attrs import Factory, define
 from cyclopts import App, Parameter
@@ -30,6 +30,7 @@ class Launcher(BaseLauncher):
         app.meta.default(meta)
         return app
 
+    @override
     def add(self, meta: Entry) -> None:
 
         # Note: Method definition works as a wrapper
@@ -45,6 +46,7 @@ class Launcher(BaseLauncher):
             group=f"📦 {self.keyword}s at ({meta.path})",
         )
 
+    @override
     def run(self, meta: Entry, *args: str) -> Any:
         """Assumes a chained .cli field in the class"""
         sys.argv[1:] = args
